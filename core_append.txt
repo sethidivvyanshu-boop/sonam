@@ -1,0 +1,60 @@
+        # 5. Advanced Pulsing Arcs
+
+        rate = 1.2 + (2.5 if self.state in (\
+
+THINKING\, \PROCESSING\) else 0.0) + (1.5 if self.speaking else 0.0)
+
+        arc_configs = [
+
+            (0.95, 90, 3, 1, acc, 0.8, 2.5),
+
+            (0.85, 120, 2, -1, main, 0.4, 1.5),
+
+            (0.75, 60, 4, 1.5, acc, 0.5, 2.0),
+
+            (0.65, 180, 1, -0.8, main, 0.3, 1.2)
+
+        ]
+
+        for k, (rr, span, count, dirn, col, a, wid) in enumerate(arc_configs):
+
+            rad = r * rr
+
+            p.setPen(QPen(blend(col, a), wid))
+
+            box = QRectF(cx - rad, cy - rad, rad * 2, rad * 2)
+
+            base = (t * rate * (15 + k * 8) * dirn) % 360.0
+
+            for sgm in range(count):
+
+
+
+        # 6. Neural Link (Voice Visualization)
+
+        n = 80
+
+        ring = r * 0.45
+
+        p.setPen(QPen(blend(acc if live else main, 0.4 + amp), 2))
+
+        for i in range(n):
+
+            ang = math.radians(i * (360.0 / n) + t * 2)
+
+            ca, sa = math.cos(ang), math.sin(ang)
+
+            h = r * (0.02 + (amp * 0.25 * (0.5 + 0.5 * math.sin(t * 5 + i * 0.5)) if live else 0.0))
+
+            p.drawLine(QLineF(cx + ca * ring, cy + sa * ring, cx + ca * (ring + h), cy + sa * (ring + h)))
+
+
+
+        # 7. Core Nameplate
+
+        inner = r * 0.38
+
+        p.setPen(QPen(blend(acc, 0.5 + 0.4 * amp), 2))
+
+        p.drawEllipse(QRectF(cx - inner, cy - inner, inner * 2, inner * 2))
+
